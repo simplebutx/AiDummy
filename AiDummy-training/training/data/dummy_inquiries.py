@@ -54,7 +54,6 @@ DUMMY_INQUIRIES = [
     {"text": "비밀번호를 바꾼 뒤 다른 기기에서 로그인이 안 됩니다.", "label": "account_access"},
     {"text": "휴면 계정 해제 절차를 안내받고 싶습니다.", "label": "account_access"},
     {"text": "탈퇴한 계정을 다시 복구할 수 있는지 궁금합니다.", "label": "account_access"},
-    {"text": "인증번호 문자가 오지 않아서 본인 확인을 못 하고 있어요.", "label": "account_access"},
     {"text": "로그아웃이 반복되면서 세션이 계속 끊깁니다.", "label": "account_access"},
     {"text": "이메일 주소를 바꿨는데 계정 정보에 반영되지 않았습니다.", "label": "account_access"},
     {"text": "다른 사람 이름으로 계정 정보가 보여서 확인이 필요합니다.", "label": "account_access"},
@@ -136,6 +135,21 @@ DUMMY_INQUIRIES = [
 {"text": "이미지를 올리려고 하면 실패 메시지만 나와요.", "label": "technical_issue"},
 {"text": "첨부파일 업로드 버튼을 눌러도 업로드가 되지 않습니다.", "label": "technical_issue"},
 {"text": "업로드 처리 중 계속 에러가 발생해 제출이 안 돼요.", "label": "technical_issue"},
+{"text": "인증번호 문자가 오지 않아 본인 확인을 진행할 수 없습니다.", "label": "account_access"},
+{"text": "휴대폰 인증 문자가 오지 않아서 로그인을 못 하고 있어요.", "label": "account_access"},
+{"text": "본인 확인용 인증번호를 받지 못했습니다.", "label": "account_access"},
+{"text": "문자 인증이 오지 않아 계정 인증을 완료할 수 없어요.", "label": "account_access"},
+{"text": "인증 코드가 오지 않아서 로그인 절차를 진행할 수 없습니다.", "label": "account_access"},
+{"text": "본인 인증 문자가 오지 않는데 어떻게 해야 하나요?", "label": "account_access"},
+{"text": "세금계산서 발행은 어디서 신청하나요?", "label": "billing_payment"},
+{"text": "전자세금계산서 발행 요청 방법을 알고 싶습니다.", "label": "billing_payment"},
+{"text": "현금영수증 정보를 잘못 입력했는데 수정 가능한가요?", "label": "billing_payment"},
+{"text": "현금영수증 번호를 변경하고 싶습니다.", "label": "billing_payment"},
+{"text": "영수증 발급 내역은 어디서 확인하나요?", "label": "billing_payment"},
+{"text": "결제 영수증 출력 방법을 알려주세요.", "label": "billing_payment"},
+{"text": "지출 증빙용 영수증을 다시 발급받고 싶어요.", "label": "billing_payment"},
+{"text": "사업자용 세금계산서 요청은 어디서 하나요?", "label": "billing_payment"},
+
 
 ]
 
