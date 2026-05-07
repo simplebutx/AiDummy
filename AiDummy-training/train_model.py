@@ -36,6 +36,8 @@ def main() -> None:
     accuracy = accuracy_score(y_test, predictions)  # 정확도 계산
 
     #---------------------------------------------------------
+
+    # 오답 표시
     wrong_count = 0
     for text, actual, predicted in zip(x_test, y_test, predictions):
         if actual != predicted:

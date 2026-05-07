@@ -119,6 +119,23 @@ DUMMY_INQUIRIES = [
 {"text": "이메일 주소를 변경했는데 계정 정보에 반영되지 않았습니다.", "label": "account_access"},
 {"text": "다른 사람 이름으로 계정 정보가 보여서 확인 부탁드립니다.", "label": "account_access"},
 {"text": "관리자 권한이 필요한 메뉴가 제 계정에서는 보이지 않아요.", "label": "account_access"},
+{"text": "배송조회 번호가 안 보여서 택배 위치를 확인할 수 없어요.", "label": "delivery"},
+{"text": "송장번호는 받았는데 배송 추적이 되지 않습니다.", "label": "delivery"},
+{"text": "택배 조회 번호가 등록되지 않아 배송 상태를 모르겠어요.", "label": "delivery"},
+{"text": "운송장 번호로 조회해도 배송 정보가 나오지 않아요.", "label": "delivery"},
+{"text": "배송 위치를 확인하려는데 조회가 안 됩니다.", "label": "delivery"},
+{"text": "탈퇴한 계정을 다시 살릴 수 있나요?", "label": "account_access"},
+{"text": "회원 탈퇴한 계정을 복구하고 싶습니다.", "label": "account_access"},
+{"text": "삭제한 계정을 다시 되살릴 수 있는지 궁금해요.", "label": "account_access"},
+{"text": "탈퇴 처리된 아이디를 다시 사용할 수 있나요?", "label": "account_access"},
+{"text": "계정 탈퇴 후 다시 로그인하려면 복구가 필요한가요?", "label": "account_access"},
+{"text": "비활성화된 계정을 다시 활성화하고 싶어요.", "label": "account_access"},
+{"text": "이미지 업로드가 계속 실패해서 등록을 못 하고 있어요.", "label": "technical_issue"},
+{"text": "사진 첨부를 시도할 때마다 오류가 발생합니다.", "label": "technical_issue"},
+{"text": "파일 업로드 기능이 동작하지 않습니다.", "label": "technical_issue"},
+{"text": "이미지를 올리려고 하면 실패 메시지만 나와요.", "label": "technical_issue"},
+{"text": "첨부파일 업로드 버튼을 눌러도 업로드가 되지 않습니다.", "label": "technical_issue"},
+{"text": "업로드 처리 중 계속 에러가 발생해 제출이 안 돼요.", "label": "technical_issue"},
 
 ]
 
