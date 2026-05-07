@@ -36,6 +36,20 @@ def main() -> None:
     accuracy = accuracy_score(y_test, predictions)  # 정확도 계산
 
     #---------------------------------------------------------
+    wrong_count = 0
+    for text, actual, predicted in zip(x_test, y_test, predictions):
+        if actual != predicted:
+            wrong_count += 1
+            print(f"[오답 {wrong_count}]")
+            print("문장:", text)
+            print("실제:", actual)
+            print("예측:", predicted)
+            print("-" * 50)
+
+    if wrong_count == 0:
+        print("오답 없음")
+
+    #---------------------------------------------------------
 
     model_path = settings.resolved_model_artifact_path  # 모델을 저장할 경로
     metadata_path = settings.resolved_model_metadata_path  # 메타데이터를 저장할 경로
@@ -60,6 +74,10 @@ def main() -> None:
     print("Model saved:", model_path)
     print("Metadata saved:", metadata_path)
     print(json.dumps(metadata, ensure_ascii=False, indent=2))
+
+    #----------------------------------------------------------
+
+    
 
 # 파일을 직접 실행했을 때만 main()을 돌려라
 if __name__ == "__main__":
