@@ -149,6 +149,13 @@ DUMMY_INQUIRIES = [
 {"text": "결제 영수증 출력 방법을 알려주세요.", "label": "billing_payment"},
 {"text": "지출 증빙용 영수증을 다시 발급받고 싶어요.", "label": "billing_payment"},
 {"text": "사업자용 세금계산서 요청은 어디서 하나요?", "label": "billing_payment"},
+{"text": "어제 출고된다고 했는데 택배 이동이 멈춰 있습니다.", "label": "delivery"},
+{"text": "배송이 시작됐다고 나오는데 택배가 계속 같은 위치에 있어요.", "label": "delivery"},
+{"text": "집하 이후 배송 상태가 더 이상 갱신되지 않습니다.", "label": "delivery"},
+{"text": "택배가 멈춘 것처럼 며칠째 이동하지 않고 있어요.", "label": "delivery"},
+{"text": "배송 조회를 해보면 계속 집하 상태로만 표시됩니다.", "label": "delivery"},
+{"text": "발송됐다고 안내받았는데 물류 이동이 전혀 없습니다.", "label": "delivery"},
+
 
 
 ]
