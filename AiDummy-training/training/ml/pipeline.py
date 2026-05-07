@@ -9,7 +9,7 @@ def build_text_classification_pipeline() -> Pipeline:  # TfidfVectorizer() 랑 L
             (
                 "tfidf",
                 TfidfVectorizer(     # 문장을 숫자 벡터로 바꿈 (보정 옵션)
-                    ngram_range=(1, 2),   # 단어 1개짜리도 보고 2개짜리 묶음도 보겠다 ex) 배송 완료
+                    ngram_range=(1, 1),   # 단어 1개짜리도 보고 2개짜리 묶음도 보겠다 ex) 배송 완료
                     min_df=1,      # 한번만 나온 단어라도 버리지 않고 쓰겠다
                     sublinear_tf=True,    # 단어가 너무 많이 반복된다고 해서 그 횟수를 그대로 세게 반영하지 않도록 완화하는 옵션
                 ),
@@ -17,6 +17,7 @@ def build_text_classification_pipeline() -> Pipeline:  # TfidfVectorizer() 랑 L
             (
                 "classifier",
                 LogisticRegression(   # 실제 분류 모델
+                    C=5.0,
                     max_iter=1000,   # 학습을 반복하는 최대 횟수
                     random_state=42,   # 랜덤 요소를 고정해서 매번 결과가 들쭉날쭉하지 않게 함
                 ),

@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timezone
 
+# GridSearchCV: 하이퍼파라미터 조합을 전부 다 돌려보면서 가장 좋은 조합을 찾는 도구
 from sklearn.model_selection import GridSearchCV, train_test_split
 
 from training.config import get_settings
@@ -27,6 +28,7 @@ def main() -> None:
 
     model = build_text_classification_pipeline()
 
+    # 가능한 조합을 모두 돌려봄
     param_grid = {
         "tfidf__ngram_range": [(1, 1), (1, 2)],
         "tfidf__min_df": [1, 2],
@@ -34,14 +36,16 @@ def main() -> None:
     }
 
     search = GridSearchCV(
-        estimator=model,
-        param_grid=param_grid,
-        cv=3,
-        n_jobs=-1,
-        scoring="accuracy",
+        estimator=model,  # 튜닝할 대상 모델
+        param_grid=param_grid,  # 조합표 넣기
+        cv=3,   # 3번 나눠가며 평가
+        n_jobs=-1,  # 가능한 CPU 코어를 다 써서 병렬 처리하라는 뜻
+        scoring="accuracy",  # 어떤 기준으로 좋은 모델인지 판단할지 정하는 옵션
     )
-    search.fit(x_train, y_train)
+    search.fit(x_train, y_train)   # 튜닝 실행
 
+    # -----------------------------------------------------------
+    
     results_path = settings.resolved_tuning_results_path
     results_path.parent.mkdir(parents=True, exist_ok=True)
 
