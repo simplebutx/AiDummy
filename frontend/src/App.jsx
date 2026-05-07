@@ -32,7 +32,6 @@ function normalizePrediction(data) {
 function App() {
   const [backendBaseUrl, setBackendBaseUrl] = useState("http://localhost:8080");
   const [status, setStatus] = useState("대기 중");
-  const [resultText, setResultText] = useState("아직 실행 결과가 없습니다.");
   const [inputText, setInputText] = useState("");
   const [prediction, setPrediction] = useState(null);
 
@@ -59,30 +58,6 @@ function App() {
     }
 
     return data;
-  };
-
-  const handleLoadLabels = async () => {
-    try {
-      setStatus("라벨 조회 중");
-      const data = await requestJson("/api/ai/classification/labels");
-      setResultText(JSON.stringify(data, null, 2));
-      setStatus("라벨 조회 완료");
-    } catch (error) {
-      setStatus("실패");
-      setResultText(error.message);
-    }
-  };
-
-  const handleLoadModelInfo = async () => {
-    try {
-      setStatus("모델 정보 조회 중");
-      const data = await requestJson("/api/ai/classification/model-info");
-      setResultText(JSON.stringify(data, null, 2));
-      setStatus("모델 정보 조회 완료");
-    } catch (error) {
-      setStatus("실패");
-      setResultText(error.message);
-    }
   };
 
   const handlePredict = async (event) => {
@@ -151,15 +126,9 @@ function App() {
           <h2>AI 작업</h2>
           <span className="hint">Spring Boot가 AI 서버로 프록시 요청합니다</span>
         </div>
-        <div className="action-grid">
-          <button className="action-button secondary" onClick={handleLoadLabels}>
-            라벨 목록 보기
-          </button>
-          <button className="action-button primary" onClick={handleLoadModelInfo}>
-            모델 정보 보기
-          </button>
-        </div>
-        <pre className="result-box muted">{resultText}</pre>
+        <p className="hero-text">
+          이 화면에서는 문장 분류 예측만 호출합니다. 라벨 목록 조회와 모델 정보 조회 기능은 제거했습니다.
+        </p>
       </section>
 
       <section className="content-grid">

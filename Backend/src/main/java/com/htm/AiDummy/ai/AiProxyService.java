@@ -1,7 +1,5 @@
 package com.htm.AiDummy.ai;
 
-import com.htm.AiDummy.ai.dto.AiLabelListResponse;
-import com.htm.AiDummy.ai.dto.AiModelInfoResponse;
 import com.htm.AiDummy.ai.dto.AiPredictionForwardRequest;
 import com.htm.AiDummy.ai.dto.AiPredictionRequest;
 import com.htm.AiDummy.ai.dto.AiPredictionResponse;
@@ -17,13 +15,6 @@ public class AiProxyService {
 
     public AiProxyService(RestClient aiRestClient) {
         this.aiRestClient = aiRestClient;
-    }
-
-    public AiModelInfoResponse getModelInfo() {
-        return aiRestClient.get()
-                .uri("/api/v1/classification/model-info")
-                .retrieve()
-                .body(AiModelInfoResponse.class);
     }
 
     public AiPredictionResponse predict(AiPredictionRequest request) {
@@ -52,10 +43,4 @@ public class AiProxyService {
         );
     }
 
-    public AiLabelListResponse getLabels() {
-        return aiRestClient.get()
-                .uri("/api/v1/classification/labels")
-                .retrieve()
-                .body(AiLabelListResponse.class);
-    }
 }

@@ -1,62 +1,41 @@
-import json
-from collections.abc import Sequence
-
-import joblib
+import joblib # 머신러닝 모델을 파일로 저장하고 다시 불러올 때 쓰는 라이브러리
 import numpy as np
 from fastapi import HTTPException
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline  # 저장된 sklearn 파이프라인 타입 표시용
 
 from app.core.config import get_settings
-from app.data.dummy_inquiries import LABEL_DESCRIPTIONS
+from app.data.label_descriptions import LABEL_DESCRIPTIONS
 from app.schemas.classification import (
-    ClassificationModelInfoResponse,
     ClassificationPredictionRequest,
     ClassificationPredictionResponse,
 )
 
 
 class ClassificationService:
+    # 한 번 불러온 모델을 메모리에 보관해서 매 요청마다 파일을 다시 읽지 않게 함
     _model: Pipeline | None = None
-    _labels: list[str] = sorted(LABEL_DESCRIPTIONS.keys())
-    _metadata: dict | None = None
 
-    # 라벨 목록 돌려주는 함수
-    @classmethod
-    def supported_labels(cls) -> list[str]:
-        return cls._labels
-
-    # Colab에서 학습한 모델 정보와 메타데이터를 FastAPI가 불러오는 함수
-    def get_model_info(self) -> ClassificationModelInfoResponse:
-        metadata = self._load_metadata()
-        return ClassificationModelInfoResponse(
-            trained_samples=int(metadata["trained_samples"]),
-            test_samples=int(metadata["test_samples"]),
-            accuracy=float(metadata["accuracy"]),
-            labels=list(metadata["labels"]),
-            trained_at=str(metadata["trained_at"]),
-            model_version=str(metadata["model_version"]),
-        )
-
-    # 예측
+    # 실제 예측 처리 함수
     def predict(self, request: ClassificationPredictionRequest) -> ClassificationPredictionResponse:
-        model = self._load_model()  # Colab에서 학습한 모델을 불러오기
+        model = self._load_model()  # 저장된 모델 파일 불러오기
 
-        predicted_label = str(model.predict([request.text])[0])  # 실제 예측
-        probabilities = model.predict_proba([request.text])[0]  # 확률값 계산
-        class_names = model.classes_  # 확률 배열이 어떤 라벨 순서인지 가져옴
+        predicted_label = str(model.predict([request.text])[0])  # 실제 예측 라벨
+        probabilities = model.predict_proba([request.text])[0]  # 각 라벨별 확률
+        class_names = model.classes_  # 모델이 알고있는 라벨 목록을 순서대로 꺼냄
         # ["account_access", "billing_payment", "delivery", "return_refund", "technical_issue"]
 
-        confidence = self._extract_confidence(class_names, probabilities, predicted_label)  # 예측된 라벨에 해당하는 확률만 꺼냄
+        # 확률만 꺼내기
+        confidence = self._extract_confidence(class_names, probabilities, predicted_label)
 
-        # 응답 만들기
+        # FastAPI 응답 형태로 변환
         return ClassificationPredictionResponse(
             text=request.text,
-            predicted_label=predicted_label,
-            label_description=LABEL_DESCRIPTIONS[predicted_label],
-            confidence=round(confidence, 4),
+            predicted_label=predicted_label,  # 선택된 라벨
+            label_description=LABEL_DESCRIPTIONS[predicted_label],  # 선택된 라벨을 한국어로
+            confidence=round(confidence, 4),  # 선택된 라벨의 확률
         )
 
-    # Colab에서 학습한 모델을 joblib 파일로 저장해둔 뒤에 불러오기
+    # joblib로 저장된 모델 파일을 읽어오는 함수
     def _load_model(self) -> Pipeline:
         if self.__class__._model is not None:
             return self.__class__._model
@@ -67,37 +46,20 @@ class ClassificationService:
         if not model_path.exists():
             raise HTTPException(
                 status_code=503,
-                detail="학습된 모델 파일이 없습니다. Colab 또는 로컬에서 train_model.py를 먼저 실행하세요.",
+                detail="학습된 모델 파일이 없습니다. AiDummy-training 프로젝트에서 모델을 만든 뒤 artifacts를 반영하세요.",
             )
 
         self.__class__._model = joblib.load(model_path)
         return self.__class__._model
 
-    # Colab에서 학습 결과 메타데이터를 json 파일로 저장해둔 뒤에 불러오기
-    def _load_metadata(self) -> dict:
-        if self.__class__._metadata is not None:
-            return self.__class__._metadata
-
-        settings = get_settings()
-        metadata_path = settings.resolved_model_metadata_path
-
-        if not metadata_path.exists():
-            raise HTTPException(
-                status_code=503,
-                detail="학습된 모델 메타데이터가 없습니다. Colab 또는 로컬에서 train_model.py를 먼저 실행하세요.",
-            )
-
-        self.__class__._metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-        return self.__class__._metadata
-
-    # 예측된 라벨의 점수만 골라내는 함수
+    # 예측된 라벨에 해당하는 확률만 꺼내는 함수
     @staticmethod
     def _extract_confidence(
-        class_names: Sequence[str],  # ["account_access", "billing_payment", "delivery", "return_refund", "technical_issue"]
-        probabilities: np.ndarray,  # [0.10, 0.18, 0.3047, 0.22, 0.19]
-        predicted_label: str,  # 예측된 라벨 ex) "delivery"
+        class_names,
+        probabilities: np.ndarray,
+        predicted_label: str,
     ) -> float:
         for index, class_name in enumerate(class_names):
             if class_name == predicted_label:
-                return float(probabilities[index])  # ex) 0.3047
+                return float(probabilities[index])
         return 0.0

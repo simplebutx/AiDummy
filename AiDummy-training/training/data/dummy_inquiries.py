@@ -68,3 +68,4 @@ LABEL_DESCRIPTIONS = {
     "technical_issue": "오류, 버그, 성능 문제 관련 문의",
     "account_access": "로그인, 인증, 계정 접근 관련 문의",
 }
+
